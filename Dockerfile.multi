@@ -18,17 +18,17 @@ EOF
 RUN dnf install -y \
        bzip2 \
        gcc \
-       libbz2-dev \
-       liblzma-dev \
-       libncurses5-dev \
+       xz-devel \
+       ncurses-devel \
        make \
        wget \
-       zlib1g-dev
+       zlib-devel
 
 ### Multi-stage build:
 FROM ${REPOSITORY}/ncigdc/samtools:1.9-0bce9a0
 COPY --from=builder /usr/local /usr/local
 
+ARG VERSION
 ### Run install steps
 WORKDIR /bwa/bwa-${VERSION}
 
