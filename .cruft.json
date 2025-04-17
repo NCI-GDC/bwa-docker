@@ -1,0 +1,16 @@
+{
+    "template": "git@github.com:NCI-GDC/bio-software-template.git",
+    "commit": "2fbf290ed088e55110a994815e2b6e0e17030695",
+    "context": {
+      "cookiecutter": {
+        "repository_name": "bwa-docker",
+        "software_name": "bwa",
+        "software_version": "0.7.15",
+        "commit": "2fbf290ed088e55110a994815e2b6e0e17030695",
+        "_template": "git@github.com:NCI-GDC/bio-software-template.git"
+      }
+    },
+    "directory": null,
+    "checkout": null
+  }
+

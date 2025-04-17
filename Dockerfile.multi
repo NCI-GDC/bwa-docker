@@ -1,25 +1,38 @@
-FROM quay.io/ncigdc/bio-ubuntu:20.04 as builder
+ARG REPOSITORY=docker.osdc.io
+ARG BUILDER_TAG=3.1.0
+
+### Download tarball to scratch layer
+FROM scratch AS src
+ARG VERSION
+ADD https://path/to/file/$VERSION/software-$VERSION.tar.gz /software.tar.gz
+
+FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
+
 ARG VERSION
 
-ENV BWA_URL=https://github.com/lh3/bwa/releases/download/v$VERSION/bwa-$VERSION.tar.bz2
+### Mount tarball from scratch layer and untar into builder layer
+RUN --mount=from=src,target=/src <<EOF
+mkdir -p /software
+tar -oxzf /src/software.tar.gz -C /software
+EOF
 
-RUN apt-get update \
-    && apt-get install -y \
-       bzip2 \
-       gcc \
-       libbz2-dev \
-       liblzma-dev \
-       libncurses5-dev \
-       make \
-       wget \
-       zlib1g-dev \
-    && wget -O bwa.tar.bz2 $BWA_URL \
-    && tar xf bwa.tar.bz2 \
-    && cd bwa-$VERSION \
-    && make \
-    && mv bwa /usr/local/bin/
+# Example add package step
+RUN dnf install -y x y z
 
-FROM quay.io/ncigdc/bio-ubuntu:20.04
-COPY --from=quay.io/ncigdc/samtools:1.8 / /
-COPY --from=builder /usr/local/bin/bwa /usr/local/bin/
+# RUN dnf install -y tools
 
+### Run install steps
+WORKDIR /software
+
+RUN <<EOF
+./configure
+make
+make install
+EOF
+
+### Multi-stage build:
+#FROM ${REPOSITORY}/ncigdc/amzn2023:${BUILDER_TAG}
+
+#COPY --from=builder /usr/local /usr/local
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
