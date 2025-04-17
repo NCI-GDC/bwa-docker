@@ -4,16 +4,14 @@ ARG BUILDER_TAG=3.1.0
 ### Download tarball to scratch layer
 FROM scratch AS src
 ARG VERSION
-ADD https://github.com/NCI-GDC/bwa/archive/gdc_a.tar.gz /gdc_a.tar.gz
+ADD https://github.com/lh3/bwa/archive/refs/tags/v${VERSION}.tar.gz /bwa.tar.gz
 
 FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
 
-ARG VERSION
-
 ### Mount tarball from scratch layer and untar into builder layer
 RUN --mount=from=src,target=/src <<EOF
-mkdir -p /gdc_a
-tar -oxzf /src/gdc_a.tar.gz -C /gdc_a/.
+mkdir -p /bwa
+tar -oxzf /src/bwa.tar.gz -C /bwa/.
 EOF
 
 # Example add package step
@@ -32,7 +30,7 @@ FROM ${REPOSITORY}/ncigdc/samtools:1.9-0bce9a0
 COPY --from=builder /usr/local /usr/local
 
 ### Run install steps
-WORKDIR /gdc_a/bwa-gdc_a
+WORKDIR /bwa/bwa-${VERSION}
 
 RUN <<EOF
 make
