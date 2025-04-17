@@ -6,7 +6,8 @@ FROM scratch AS src
 ARG VERSION
 ADD https://github.com/lh3/bwa/archive/refs/tags/v${VERSION}.tar.gz /bwa.tar.gz
 
-FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
+#FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
+FROM ${REPOSITORY}/ncigdc/samtools:1.9-0bce9a0
 
 ### Mount tarball from scratch layer and untar into builder layer
 RUN --mount=from=src,target=/src <<EOF
@@ -23,10 +24,6 @@ RUN dnf install -y \
        make \
        wget \
        zlib-devel
-
-### Multi-stage build:
-FROM ${REPOSITORY}/ncigdc/samtools:1.9-0bce9a0
-COPY --from=builder /usr/local /usr/local
 
 ARG VERSION
 ### Run install steps
