@@ -33,6 +33,8 @@ WORKDIR /bwa/bwa-${VERSION}
 
 RUN <<EOF
 make
+pwd
+ls -al
 mv bwa /usr/local/bin/
 EOF
 
