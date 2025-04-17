@@ -80,7 +80,7 @@ for directory in *; do
 
 		# Cleanup build image
 		docker rmi "${BUILD_TAG}"
-		
+
 		cd ..
 	fi
 done

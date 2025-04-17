@@ -9,7 +9,7 @@ emit-software:
 
 # Builds individual software version
 build VERSION:
-   just {{VERSION}}/build-docker 
+   just {{VERSION}}/build-docker
 
 # Builds all docker images for each directory with a justfile
 build-all:
@@ -21,4 +21,3 @@ build-all:
             fi
         fi
     done
-

@@ -17,4 +17,3 @@ build-docker:
   . \
   --build-arg VERSION="{{VERSION}}" \
   --build-arg REGISTRY="{{BASE_CONTAINER_REGISTRY}}"
-

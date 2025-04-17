@@ -10,7 +10,7 @@ function publish {
 }
 
 case "$1" in
-	build) 
+	build)
 		for version in *; do
 			if [ -d "${version}" ]; then
 				echo "Building $version"

@@ -45,7 +45,7 @@ DOCKERFILE := "../Dockerfile.multi"
 
 Many kinds of software are able to share a single Dockerfile with a parameterized version.
 
-However, if a particular version needs a bespoke Dockerfile, simply create on in the version directory and upate the justfile: 
+However, if a particular version needs a bespoke Dockerfile, simply create on in the version directory and upate the justfile:
 
 ```
 # justfile
@@ -56,5 +56,3 @@ DOCKERFILE := "./Dockerfile"
 Available recipes:
     emit-dockerfile          # Prints which Dockerfile to use for CI builds
 ```
-
-
