@@ -1,4 +1,4 @@
-VERSION = 0.7.15
+VERSION = 0.7.19
 DOCKER_REPO = bwa
 
 SHORT_HASH := $(shell git rev-parse --short HEAD)
