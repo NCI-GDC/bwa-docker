@@ -7,7 +7,6 @@ ARG VERSION
 ADD https://github.com/NCI-GDC/bwa/archive/gdc_a.tar.gz /gdc_a.tar.gz
 
 FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
-FROM ${REPOSITORY}/ncigdc/samtools:1.9-0bce9a0
 
 ARG VERSION
 
@@ -28,6 +27,10 @@ RUN dnf install -y \
        wget \
        zlib1g-dev
 
+### Multi-stage build:
+FROM ${REPOSITORY}/ncigdc/samtools:1.9-0bce9a0
+COPY --from=builder /usr/local /usr/local
+
 ### Run install steps
 WORKDIR /gdc_a/bwa-gdc_a
 
@@ -35,10 +38,5 @@ RUN <<EOF
 make
 mv bwa /usr/local/bin/
 EOF
-
-### Multi-stage build:
-#FROM ${REPOSITORY}/ncigdc/amzn2023:${BUILDER_TAG}
-
-#COPY --from=builder /usr/local /usr/local
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
