@@ -32,7 +32,7 @@ ARG VERSION
 WORKDIR /bwa/bwa-${VERSION}
 
 RUN <<EOF
-make
+make CC='gcc -fcommon'
 pwd
 ls -al
 mv bwa /usr/local/bin/
