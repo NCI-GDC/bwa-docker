@@ -1,0 +1,19 @@
+SOFTWARE := "bwa"
+DOCKERFILE := "../Dockerfile.multi"
+BASE_CONTAINER_REGISTRY := env_var_or_default("BASE_CONTAINER_REGISTRY", "docker.osdc.io")
+
+VERSION := `basename $(pwd)`
+
+emit-dockerfile:
+    @echo {{DOCKERFILE}}
+
+emit-version:
+    @echo {{VERSION}}
+
+build-docker:
+  docker buildx build --compress --progress plain \
+  -t "{{SOFTWARE}}-{{VERSION}}" \
+  -f {{DOCKERFILE}} \
+  . \
+  --build-arg VERSION="{{VERSION}}" \
+  --build-arg REGISTRY="{{BASE_CONTAINER_REGISTRY}}"
