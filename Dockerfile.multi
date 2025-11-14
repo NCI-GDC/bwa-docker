@@ -7,7 +7,7 @@ ARG VERSION
 ADD https://github.com/lh3/bwa/archive/refs/tags/v${VERSION}.tar.gz /bwa.tar.gz
 
 #FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
-FROM ${REPOSITORY}/ncigdc/samtools:1.9-0bce9a0
+FROM ${REPOSITORY}/ncigdc/samtools:1.9-6c12b02
 
 RUN dnf install -y tar
 
